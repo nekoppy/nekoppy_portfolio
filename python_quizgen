@@ -1,0 +1,35 @@
+#! python3
+
+import random
+
+numerus = {'1':'unus', '2':'duo','3':'tres','4':'quattuor','5':'quinque','6':'sex','7':'septem','8':'octo','9':'novem','10':'decem'}
+
+for quiz_num in range(6):
+    quiz_file = open('numerusquiz{}.txt'.format(quiz_num + 1), 'w')
+    answer_key_file = open('numerusquiz_answers{}.txt'.format(quiz_num + 1), 'w')
+
+    quiz_file.write('名前:\n\n日付:\n\n受験番号:\n\n')
+    quiz_file.write((''*20) + 'ラテン語数字クイズ(問題番号{})'.format(quiz_num + 1))
+    quiz_file.write('\n\n')
+
+    prefectures = list(numerus.keys())
+    random.shuffle(prefectures)
+
+    for question_num in range(len(prefectures)):
+        corect_answer = numerus[prefectures[question_num]]
+        wrong_answers = list(numerus.values())
+        del wrong_answers[wrong_answers.index(corect_answer)]
+        wrong_answers = random.sample(wrong_answers, 3)
+        answer_options = wrong_answers + [corect_answer]
+        random.shuffle(answer_options)
+
+        quiz_file.write('{}.{}をラテン語表記すると①~④のいずれか？\n'.format(question_num + 1, prefectures[question_num]))
+        for i in range(4):
+            quiz_file.write('{}.{}\n'.format('①②③④'[i],answer_options[i]))
+
+        quiz_file.write('\n')
+
+        answer_key_file.write('{}.{}\n'.format(question_num + 1, '①②③④'[answer_options.index(corect_answer)]))
+
+quiz_file.close()
+answer_key_file.closepu
